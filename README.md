@@ -910,7 +910,7 @@ print(classification_report(y_test, y_pred,target_names=labels))
 
 
 ```python
-pcmc.plot_confusion_matrix(conf_matr,labels,normalize=False)
+plot_confusion_matrix(conf_matr,labels,normalize=False)
 ```
 
     Confusion matrix, without normalization
