@@ -118,17 +118,17 @@ class ModelScorePlot:
 					svc.degree=degree
 					dtitle=title+str(degree)
 					train_sc, test_sc = validation_curve(svc,Xn,y,param_name=param_name,param_range=param_range,cv=cv)
-					param_score=plotTrainTest(train_sc,test_sc,param_range,t=dtitle,xlabel=param_name,plot=plot)
+					param_score= self.plotTrainTest(train_sc,test_sc,param_range,t=dtitle,xlabel=param_name,plot=plot)
 					scoreDic={'model':dtitle,'param_name':param_name}
 					scoreDic.update(param_score)
 					model_scores.append(scoreDic.copy())
 			else:
 				train_sc, test_sc = validation_curve(svc,Xn,y,param_name=param_name,param_range=param_range,cv=cv)
-				param_score=plotTrainTest(train_sc,test_sc,param_range,t=title,xlabel=param_name,plot=plot)
+				param_score=self.plotTrainTest(train_sc,test_sc,param_range,t=title,xlabel=param_name,plot=plot)
 				scoreDic={'model':title,'param_name':param_name}
 				scoreDic.update(param_score)
 				model_scores.append(scoreDic.copy())
-		return scoreModelListDf(model_scores,trainW=trainW,testW=testW)
+		return self.scoreModelListDf(model_scores,trainW=trainW,testW=testW)
 	def kncScores(self,Xn,y,cv=5,param_name='n_neighbors',paramRange=(1,10,1),trainW=1,testW=2,title='KNC',clfArg={},plot=False):
 		"""
 		Perform the validation_curve function using K neighbors classifier (KNC)
@@ -146,11 +146,11 @@ class ModelScorePlot:
 		model_scores=list()
 		param_range=np.arange(paramRange[0],paramRange[1],paramRange[2])
 		train_sc, test_sc = validation_curve(clf,Xn,y,param_name=param_name,param_range=param_range,cv=cv)
-		param_score=plotTrainTest(train_sc,test_sc,param_range,t=title,xlabel=param_name,plot=plot)
+		param_score= self.plotTrainTest(train_sc,test_sc,param_range,t=title,xlabel=param_name,plot=plot)
 		scoreDic={'model':title,'param_name':param_name}
 		scoreDic.update(param_score)
 		model_scores.append(scoreDic.copy())
-		return scoreModelListDf(model_scores,trainW=trainW,testW=testW)
+		return self.scoreModelListDf(model_scores,trainW=trainW,testW=testW)
 	def dtcScores(self,Xn,y,cv=5,param_name='max_depth',paramRange=(1,10,1),trainW=1,testW=2,title='Decision Tree classifier',clfArg={},plot=False):
 		"""
 		Perform the validation_curve function using Decision Tree classifier (DTC)
@@ -173,11 +173,11 @@ class ModelScorePlot:
 			dtitle=title+" "+criterion
 			clf.criterion=criterion
 			train_sc, test_sc = validation_curve(clf,Xn,y,param_name=param_name,param_range=param_range,cv=cv)
-			param_score=plotTrainTest(train_sc,test_sc,param_range,t=dtitle,xlabel=param_name,plot=plot)
+			param_score=self.plotTrainTest(train_sc,test_sc,param_range,t=dtitle,xlabel=param_name,plot=plot)
 			scoreDic={'model':dtitle,'param_name':param_name}
 			scoreDic.update(param_score)
 			model_scores.append(scoreDic.copy())
-		return scoreModelListDf(model_scores,trainW=trainW,testW=testW)
+		return self.scoreModelListDf(model_scores,trainW=trainW,testW=testW)
 	def rfcScores(self,Xn,y,cv=5,param_name='max_depth',estimatorsRange=(10,11,1),paramRange=(1,10,1),trainW=1,testW=2,title='Randorm Forest classifier',clfArg={},plot=False):
 		"""
 		Perform the validation_curve function using Random Forest classifier (RFC)
@@ -204,11 +204,11 @@ class ModelScorePlot:
 				clf.n_estimators=e
 				dtitle=title+". Criterion: "+criterion+". Estimators: "+str(e)
 				train_sc, test_sc = validation_curve(clf,Xn,y,param_name=param_name,param_range=param_range,cv=cv)
-				param_score=plotTrainTest(train_sc,test_sc,param_range,t=dtitle,xlabel=param_name,plot=plot)
+				param_score=self.plotTrainTest(train_sc,test_sc,param_range,t=dtitle,xlabel=param_name,plot=plot)
 				scoreDic={'model':dtitle,'param_name':param_name}
 				scoreDic.update(param_score)
 				model_scores.append(scoreDic.copy())
-		return scoreModelListDf(model_scores,trainW=trainW,testW=testW)
+		return self.scoreModelListDf(model_scores,trainW=trainW,testW=testW)
 	def abcScores(self,Xn,y,cv=5,param_name='n_estimators',paramRange=(1,10,1),trainW=1,testW=2,title='Adaboost classifier',clfArg={},plot=False):
 		"""
 		Perform the validation_curve function using Adaboost classifier (ABC) 
@@ -226,11 +226,11 @@ class ModelScorePlot:
 		model_scores=list()
 		param_range=np.arange(paramRange[0],paramRange[1],paramRange[2])
 		train_sc, test_sc = validation_curve(clf,Xn,y,param_name=param_name,param_range=param_range,cv=cv)
-		param_score=plotTrainTest(train_sc,test_sc,param_range,t=title,xlabel=param_name,plot=plot)
+		param_score=self.plotTrainTest(train_sc,test_sc,param_range,t=title,xlabel=param_name,plot=plot)
 		scoreDic={'model':title,'param_name':param_name}
 		scoreDic.update(param_score)
 		model_scores.append(scoreDic.copy())
-		return scoreModelListDf(model_scores,trainW=trainW,testW=testW)
+		return self.scoreModelListDf(model_scores,trainW=trainW,testW=testW)
 	def modelsCalculation(self,Xn,y,modelsL=['knc','svc','dtc','rfc','abc'],knc={},svc={},dtc={},rfc={},abc={}):
 		"""
 		Calculate the best param for various models. 
@@ -245,14 +245,14 @@ class ModelScorePlot:
 		"""
 		modelsScores=list()
 		if 'knc' in modelsL:
-			modelsScores.append(kncScores(Xn,y,**knc))
+			self.modelsScores.append(kncScores(Xn,y,**knc))
 		if 'svc' in modelsL:
-			modelsScores.append(svcScores(Xn,y,**svc))
+			self.modelsScores.append(svcScores(Xn,y,**svc))
 		if 'dtc' in modelsL:
-			modelsScores.append(dtcScores(Xn,y,**dtc))
+			self.modelsScores.append(dtcScores(Xn,y,**dtc))
 		if 'rfc' in modelsL:
-			modelsScores.append(rfcScores(Xn,y,**rfc))
+			self.modelsScores.append(rfcScores(Xn,y,**rfc))
 		if 'abc' in modelsL:
-			modelsScores.append(abcScores(Xn,y,**abc))
+			self.modelsScores.append(abcScores(Xn,y,**abc))
 		mod_df=pd.concat(modelsScores).sort_values(by='weighted_score',ascending=False)
 		return mod_df.copy()
