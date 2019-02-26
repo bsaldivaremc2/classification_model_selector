@@ -245,14 +245,14 @@ class ModelScorePlot:
 		"""
 		modelsScores=list()
 		if 'knc' in modelsL:
-			modelsScores.append(kncScores(Xn,y,**knc))
+			modelsScores.append(self.kncScores(Xn,y,**knc))
 		if 'svc' in modelsL:
-			modelsScores.append(svcScores(Xn,y,**svc))
+			modelsScores.append(self.svcScores(Xn,y,**svc))
 		if 'dtc' in modelsL:
-			modelsScores.append(dtcScores(Xn,y,**dtc))
+			modelsScores.append(self.dtcScores(Xn,y,**dtc))
 		if 'rfc' in modelsL:
-			modelsScores.append(rfcScores(Xn,y,**rfc))
+			modelsScores.append(self.rfcScores(Xn,y,**rfc))
 		if 'abc' in modelsL:
-			modelsScores.append(abcScores(Xn,y,**abc))
+			modelsScores.append(self.abcScores(Xn,y,**abc))
 		mod_df=pd.concat(modelsScores).sort_values(by='weighted_score',ascending=False)
 		return mod_df.copy()
