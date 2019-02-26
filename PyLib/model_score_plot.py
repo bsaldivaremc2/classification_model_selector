@@ -151,7 +151,9 @@ class ModelScorePlot:
 		scoreDic.update(param_score)
 		model_scores.append(scoreDic.copy())
 		return self.scoreModelListDf(model_scores,trainW=trainW,testW=testW)
-	def dtcScores(self,Xn,y,cv=5,param_name='max_depth',paramRange=(1,10,1),trainW=1,testW=2,title='Decision Tree classifier',clfArg={},plot=False):
+	def dtcScores(self,Xn,y,cv=5,param_name='max_depth',paramRange=(1,10,1),trainW=1,testW=2,
+		      title='Decision Tree classifier',clfArg={},plot=False,
+		     run_classifier=False):
 		"""
 		Perform the validation_curve function using Decision Tree classifier (DTC)
 		 and get the best param value based on the highest test_score. 
@@ -177,6 +179,8 @@ class ModelScorePlot:
 			scoreDic={'model':dtitle,'param_name':param_name}
 			scoreDic.update(param_score)
 			model_scores.append(scoreDic.copy())
+		if run_classifier==True:
+			return train_sc[:],test_sc[:]
 		return self.scoreModelListDf(model_scores,trainW=trainW,testW=testW)
 	def rfcScores(self,Xn,y,cv=5,param_name='max_depth',estimatorsRange=(10,11,1),paramRange=(1,10,1),trainW=1,testW=2,title='Randorm Forest classifier',clfArg={},plot=False):
 		"""
